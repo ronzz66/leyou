@@ -1,0 +1,43 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: leyou-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+    registry-fetch-interval-seconds: 5 #5秒拉取一次服务
+zuul:
+  prefix: /api #前缀
+  routes:
+    ltem-service: /item/** #/**路由到ltem-service微服务uri为item
+    search-service: /search/** #路由到搜索微服务
+    user-service: /user/**
+    auth-service: /auth/**
+    cart-service: /cart/**
+    order-service: /order/**
+  add-host-header: true #转发时携带地址头信息，（登录cookie）
+  sensitive-headers:  #覆盖默认敏感头信息，防止cookie被禁止
+leyou:
+  jwt:
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: LY_TOKEN #cookie的name
+  filter: # 白名单
+    allowPaths:  # 集合
+      - /api/search
+      - /api/auth
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/item
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000  # 设置hystrix的超时时间为6000ms

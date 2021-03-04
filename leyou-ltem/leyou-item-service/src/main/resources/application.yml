@@ -1,0 +1,25 @@
+server:
+  port: 8900
+spring:
+  application:
+    name: ltem-service
+  datasource:
+    url: jdbc:mysql:///spirngb
+    username: root
+    password: root
+  rabbitmq:
+    host: 192.168.95.129 #rabbitmq 端口默认5672
+    virtual-host: /leyou #虚拟主机
+    username: leyou
+    password: leyou
+    template:
+      exchange: LEYOU.ITEM.EXCHANGE  #指定默认交换机
+eureka: #eureka提供服务端
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 #心跳时间
+    lease-expiration-duration-in-seconds: 15 #过期时间
+mybatis: #mybatis起别名配置
+  type-aliases-package: com.leyou.item.pojo
